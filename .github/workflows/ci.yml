@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      # onnxruntime-node downloads CUDA providers on linux/x64 by default; the app only needs the bundled CPU build.
+      ONNXRUNTIME_NODE_INSTALL: skip
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+      # The hash embedder needs no model download, so the eval runs offline in seconds.
+      # It checks the eval pipeline end to end; the README numbers come from the local model.
+      - name: Retrieval eval (hash embedder)
+        run: npm run eval
+        env:
+          EMBEDDER: hash
