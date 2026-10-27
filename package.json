@@ -16,6 +16,7 @@
     "dev": "concurrently -n server,web -c blue,magenta \"npm run dev -w server\" \"npm run dev -w web\"",
     "build": "npm run build -w server && npm run build -w web",
     "start": "npm run start -w server",
+    "demo": "npm run seed && npm run build && npm start",
     "seed": "npm run seed -w server",
     "eval": "npm run eval -w server --",
     "typecheck": "npm run typecheck -w server && npm run typecheck -w web",
