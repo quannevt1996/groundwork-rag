@@ -1,6 +1,6 @@
 import path from "node:path";
 import TurndownService from "turndown";
-import { extractText, getDocumentProxy } from "unpdf";
+import { extractTextItems, getDocumentProxy, getMeta } from "unpdf";
 
 export interface Section {
   /** Heading path from the outermost heading down, e.g. ["Runbook", "Paging", "Escalation"]. */
@@ -86,7 +86,11 @@ export function parseMarkdown(markdown: string, fallbackTitle: string): ParsedDo
 
 function parseHtml(html: string, fallbackTitle: string): ParsedDocument {
   const turndown = new TurndownService({ headingStyle: "atx", codeBlockStyle: "fenced" });
-  turndown.remove(["script", "style", "noscript", "nav", "footer", "iframe", "svg"]);
+  // <head> goes too: otherwise the <title> text becomes a stray paragraph of its own.
+  turndown.remove(["head", "script", "style", "noscript", "nav", "footer", "iframe", "svg"]);
+  // Markdown is only an intermediate step to find headings; it is never rendered. Turndown's
+  // escaping would store `max_rows` as `max\_rows`, which breaks keyword search and display.
+  turndown.escape = (text) => text;
   const htmlTitle = html.match(/<title[^>]*>([^<]*)<\/title>/i)?.[1]?.trim();
   const parsed = parseMarkdown(turndown.turndown(html), htmlTitle || fallbackTitle);
   return htmlTitle ? { ...parsed, title: htmlTitle } : parsed;
@@ -95,11 +99,62 @@ function parseHtml(html: string, fallbackTitle: string): ParsedDocument {
 async function parsePdf(bytes: Uint8Array, fallbackTitle: string): Promise<ParsedDocument> {
   // pdf.js takes ownership of the buffer it is given, so hand it a copy.
   const pdf = await getDocumentProxy(new Uint8Array(bytes));
-  const { text } = await extractText(pdf, { mergePages: false });
-  const sections = text
-    .map((pageText, i) => ({ headings: [], text: pageText.trim(), page: i + 1 }))
+  const { info } = await getMeta(pdf);
+  const { items } = await extractTextItems(pdf);
+  const sections = items
+    .map((pageItems, i) => ({ headings: [], text: pdfPageText(pageItems), page: i + 1 }))
     .filter((s) => s.text.length > 0);
-  return { title: fallbackTitle, sections };
+  const metaTitle = typeof info.Title === "string" ? info.Title.trim() : "";
+  return { title: metaTitle || fallbackTitle, sections };
+}
+
+/** The subset of pdf.js text items the paragraph rebuilder needs. */
+export interface PdfTextItem {
+  str: string;
+  /** Baseline position, origin bottom-left, so y decreases down the page. */
+  y: number;
+  hasEOL: boolean;
+}
+
+/**
+ * PDFs store positioned lines, not paragraphs: every visual line ends in a hard break and
+ * paragraph breaks exist only as extra vertical space. Joining wrapped lines restores real
+ * sentences (which the chunker and citations split on), and a gap clearly larger than the
+ * page's typical line spacing starts a new paragraph.
+ */
+export function pdfPageText(items: PdfTextItem[]): string {
+  const lines: { text: string; y: number }[] = [];
+  let current: { text: string; y: number } | null = null;
+  for (const item of items) {
+    if (item.str) {
+      current ??= { text: "", y: item.y };
+      current.text += item.str;
+    }
+    if (item.hasEOL && current) {
+      lines.push(current);
+      current = null;
+    }
+  }
+  if (current) lines.push(current);
+
+  const kept = lines.map((l) => ({ ...l, text: l.text.trim() })).filter((l) => l.text);
+  // The tightest spacing between consecutive lines is the page's line height.
+  const gaps = kept.slice(1).map((l, i) => kept[i]!.y - l.y).filter((g) => g > 0);
+  const lineGap = gaps.length ? Math.min(...gaps) : 0;
+
+  const paragraphs: string[] = [];
+  kept.forEach((line, i) => {
+    const gap = i === 0 ? 0 : kept[i - 1]!.y - line.y;
+    // A non-positive gap means the text jumped up the page (a new column), so break there too.
+    const newParagraph = i === 0 || gap <= 0 || (lineGap > 0 && gap > lineGap * 1.5);
+    if (newParagraph) paragraphs.push(line.text);
+    else {
+      const prev = paragraphs.pop()!;
+      // A line ending in "-" is either a hyphenated word or an identifier like "prod-"; don't add a space.
+      paragraphs.push(prev.endsWith("-") ? prev + line.text : `${prev} ${line.text}`);
+    }
+  });
+  return paragraphs.join("\n\n");
 }
 
 function decode(bytes: Uint8Array): string {
