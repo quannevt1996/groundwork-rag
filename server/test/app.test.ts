@@ -54,6 +54,7 @@ describe("HTTP API", () => {
       database: "pglite",
       embedder: { id: "hash:384", dim: 384 },
       llm: { enabled: false, model: "claude-opus-5-5" },
+      retrieval: { topK: 8, keywordMatch: "all" },
     });
   });
 

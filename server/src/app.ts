@@ -42,6 +42,7 @@ export function createApp(services: Services): Hono {
       database: db.kind,
       embedder: { id: embedder.id, dim: embedder.dim },
       llm: { enabled: config.llmEnabled, model: config.ANTHROPIC_MODEL },
+      retrieval: { topK: config.RETRIEVAL_TOP_K, keywordMatch: config.KEYWORD_MATCH },
     }),
   );
 
