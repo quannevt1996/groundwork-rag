@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-27T08:01:29.752Z",
+  "generatedAt": "2026-10-27T08:07:53.031Z",
   "embedder": {
     "id": "local:Xenova/bge-small-en-v1.5",
     "dim": 384
@@ -8,8 +8,8 @@
   "database": "pglite",
   "corpus": {
     "documents": 13,
-    "chunks": 74,
-    "indexMs": 2016
+    "chunks": 72,
+    "indexMs": 1940
   },
   "depth": 10,
   "summary": {
@@ -46,7 +46,7 @@
           "mrr": 0.9321428571428572
         }
       },
-      "meanMs": 8.592152722222181
+      "meanMs": 8.724099555555552
     },
     "keyword": {
       "overall": {
@@ -81,7 +81,7 @@
           "mrr": 0
         }
       },
-      "meanMs": 0.49736816666669864
+      "meanMs": 0.48621533333337336
     },
     "hybrid": {
       "overall": {
@@ -116,7 +116,7 @@
           "mrr": 0.9321428571428572
         }
       },
-      "meanMs": 8.414569444444446
+      "meanMs": 8.327759361111097
     }
   },
   "questions": [
@@ -125,7 +125,7 @@
       "kind": "exact",
       "mode": "vector",
       "rank": 1,
-      "ms": 11.1,
+      "ms": 10.5,
       "top3": [
         "api-reference.html § Wayline API Reference > Errors",
         "api-reference.html § Wayline API Reference > Rate limits",
@@ -137,7 +137,7 @@
       "kind": "exact",
       "mode": "vector",
       "rank": 1,
-      "ms": 9.3,
+      "ms": 9.4,
       "top3": [
         "api-reference.html § Wayline API Reference > Errors",
         "api-reference.html § Wayline API Reference > Rate limits",
@@ -149,7 +149,7 @@
       "kind": "exact",
       "mode": "vector",
       "rank": 1,
-      "ms": 7.7,
+      "ms": 8.5,
       "top3": [
         "security-policy.txt § -",
         "security-policy.txt § -",
@@ -161,7 +161,7 @@
       "kind": "exact",
       "mode": "vector",
       "rank": 5,
-      "ms": 7.6,
+      "ms": 7.7,
       "top3": [
         "glossary.txt § -",
         "glossary.txt § -",
@@ -173,7 +173,7 @@
       "kind": "exact",
       "mode": "vector",
       "rank": 1,
-      "ms": 8.1,
+      "ms": 8.2,
       "top3": [
         "oncall-runbook.md § Wayline On-Call Runbook > Common alerts > WL-ALERT-QLAG: delivery queue lag",
         "postmortem-pm-2026-014.pdf § p. 2",
@@ -185,7 +185,7 @@
       "kind": "exact",
       "mode": "vector",
       "rank": 3,
-      "ms": 7.6,
+      "ms": 8.1,
       "top3": [
         "release-notes.md § Wayline Release Notes > 3.6.0 (2026-06-02) > Deprecated",
         "engineering-handbook.md § Fernbrook Engineering Handbook > How we ship > Environments",
@@ -197,7 +197,7 @@
       "kind": "exact",
       "mode": "vector",
       "rank": 2,
-      "ms": 7.5,
+      "ms": 7.3,
       "top3": [
         "glossary.txt § -",
         "glossary.txt § -",
@@ -209,7 +209,7 @@
       "kind": "exact",
       "mode": "vector",
       "rank": 1,
-      "ms": 7.6,
+      "ms": 7.4,
       "top3": [
         "engineering-handbook.md § Fernbrook Engineering Handbook > How we ship > Environments",
         "architecture-overview.md § Wayline Architecture Overview > Regions",
@@ -221,7 +221,7 @@
       "kind": "exact",
       "mode": "vector",
       "rank": 1,
-      "ms": 9.2,
+      "ms": 8.9,
       "top3": [
         "release-notes.md § Wayline Release Notes > 3.4.0 (2026-01-20) > New",
         "api-reference.html § Wayline API Reference > Authentication",
@@ -236,8 +236,8 @@
       "ms": 7.8,
       "top3": [
         "webhook-signatures.md § Verifying Wayline Webhook Signatures > How signing works",
-        "api-reference.html § -",
-        "webhook-signatures.md § Verifying Wayline Webhook Signatures > Rotating a signing secret"
+        "webhook-signatures.md § Verifying Wayline Webhook Signatures > Rotating a signing secret",
+        "glossary.txt § -"
       ]
     },
     {
@@ -245,7 +245,7 @@
       "kind": "exact",
       "mode": "vector",
       "rank": 1,
-      "ms": 7.6,
+      "ms": 8,
       "top3": [
         "api-reference.html § Wayline API Reference > Idempotent requests",
         "security-policy.txt § -",
@@ -257,7 +257,7 @@
       "kind": "exact",
       "mode": "vector",
       "rank": 1,
-      "ms": 8.7,
+      "ms": 8,
       "top3": [
         "postmortem-pm-2026-014.pdf § p. 1",
         "postmortem-pm-2026-014.pdf § p. 2",
@@ -269,7 +269,7 @@
       "kind": "exact",
       "mode": "vector",
       "rank": 1,
-      "ms": 8.3,
+      "ms": 7.7,
       "top3": [
         "data-retention-policy.pdf § p. 1",
         "data-retention-policy.pdf § p. 2",
@@ -281,7 +281,7 @@
       "kind": "exact",
       "mode": "vector",
       "rank": 1,
-      "ms": 10.3,
+      "ms": 9.8,
       "top3": [
         "customer-faq.html § Frequently Asked Questions > Which IP addresses do deliveries come from?",
         "webhook-signatures.md § Verifying Wayline Webhook Signatures > How signing works",
@@ -293,7 +293,7 @@
       "kind": "exact",
       "mode": "vector",
       "rank": null,
-      "ms": 7.5,
+      "ms": 7.1,
       "top3": [
         "glossary.txt § -",
         "security-policy.txt § -",
@@ -305,7 +305,7 @@
       "kind": "exact",
       "mode": "vector",
       "rank": 1,
-      "ms": 8.5,
+      "ms": 8.1,
       "top3": [
         "release-notes.md § Wayline Release Notes > 3.6.0 (2026-06-02) > Deprecated",
         "data-retention-policy.pdf § p. 1",
@@ -317,7 +317,7 @@
       "kind": "paraphrase",
       "mode": "vector",
       "rank": 1,
-      "ms": 8.3,
+      "ms": 8.4,
       "top3": [
         "data-retention-policy.pdf § p. 1",
         "data-retention-policy.pdf § p. 2",
@@ -329,7 +329,7 @@
       "kind": "paraphrase",
       "mode": "vector",
       "rank": 1,
-      "ms": 9,
+      "ms": 10.9,
       "top3": [
         "oncall-runbook.md § Wayline On-Call Runbook > After a night page",
         "engineering-handbook.md § Fernbrook Engineering Handbook > Working arrangements > Core hours",
@@ -341,7 +341,7 @@
       "kind": "paraphrase",
       "mode": "vector",
       "rank": 1,
-      "ms": 8.7,
+      "ms": 14.6,
       "top3": [
         "engineering-handbook.md § Fernbrook Engineering Handbook > Working arrangements > Working from another country",
         "expense-policy.md § Travel and Expense Policy > Travel",
@@ -353,7 +353,7 @@
       "kind": "paraphrase",
       "mode": "vector",
       "rank": 1,
-      "ms": 9,
+      "ms": 9.4,
       "top3": [
         "webhook-signatures.md § Verifying Wayline Webhook Signatures",
         "api-reference.html § Wayline API Reference > Idempotent requests",
@@ -365,7 +365,7 @@
       "kind": "paraphrase",
       "mode": "vector",
       "rank": 1,
-      "ms": 9.8,
+      "ms": 9.2,
       "top3": [
         "security-policy.txt § -",
         "onboarding-guide.md § New Engineer Onboarding > Your first week",
@@ -377,7 +377,7 @@
       "kind": "paraphrase",
       "mode": "vector",
       "rank": 1,
-      "ms": 7.9,
+      "ms": 7.5,
       "top3": [
         "postmortem-pm-2026-014.pdf § p. 1",
         "release-notes.md § Wayline Release Notes > 3.5.0 (2026-03-10) > Changed",
@@ -389,7 +389,7 @@
       "kind": "paraphrase",
       "mode": "vector",
       "rank": 1,
-      "ms": 9.1,
+      "ms": 9.2,
       "top3": [
         "customer-faq.html § Frequently Asked Questions > How long does Wayline wait for my server to respond?",
         "release-notes.md § Wayline Release Notes > 3.5.0 (2026-03-10) > Changed",
@@ -401,7 +401,7 @@
       "kind": "paraphrase",
       "mode": "vector",
       "rank": 1,
-      "ms": 7.5,
+      "ms": 7.4,
       "top3": [
         "customer-faq.html § Frequently Asked Questions > Why did I receive the same event twice?",
         "customer-faq.html § Frequently Asked Questions > Can events arrive in a different order than they were sent?",
@@ -413,7 +413,7 @@
       "kind": "paraphrase",
       "mode": "vector",
       "rank": 1,
-      "ms": 8,
+      "ms": 8.6,
       "top3": [
         "expense-policy.md § Travel and Expense Policy > Approval limits",
         "expense-policy.md § Travel and Expense Policy > Home office",
@@ -425,7 +425,7 @@
       "kind": "paraphrase",
       "mode": "vector",
       "rank": 1,
-      "ms": 8.9,
+      "ms": 9,
       "top3": [
         "onboarding-guide.md § New Engineer Onboarding > Joining the on-call rotation",
         "oncall-runbook.md § Wayline On-Call Runbook > Paging and escalation",
@@ -437,7 +437,7 @@
       "kind": "paraphrase",
       "mode": "vector",
       "rank": 1,
-      "ms": 8.8,
+      "ms": 8.5,
       "top3": [
         "release-notes.md § Wayline Release Notes > 3.5.0 (2026-03-10) > Changed",
         "customer-faq.html § Frequently Asked Questions > Why did I receive the same event twice?",
@@ -449,7 +449,7 @@
       "kind": "paraphrase",
       "mode": "vector",
       "rank": 7,
-      "ms": 10.2,
+      "ms": 9.1,
       "top3": [
         "postmortem-pm-2026-014.pdf § p. 1",
         "webhook-signatures.md § Verifying Wayline Webhook Signatures > Common mistakes",
@@ -461,7 +461,7 @@
       "kind": "paraphrase",
       "mode": "vector",
       "rank": 1,
-      "ms": 8.9,
+      "ms": 8.7,
       "top3": [
         "architecture-overview.md § Wayline Architecture Overview > Storage",
         "architecture-overview.md § Wayline Architecture Overview > Request path > Event log",
@@ -473,7 +473,7 @@
       "kind": "paraphrase",
       "mode": "vector",
       "rank": 1,
-      "ms": 8.6,
+      "ms": 8.5,
       "top3": [
         "architecture-overview.md § Wayline Architecture Overview > Regions",
         "engineering-handbook.md § Fernbrook Engineering Handbook > How we ship > Environments",
@@ -485,7 +485,7 @@
       "kind": "paraphrase",
       "mode": "vector",
       "rank": 1,
-      "ms": 9.5,
+      "ms": 9.3,
       "top3": [
         "data-retention-policy.pdf § p. 2",
         "data-retention-policy.pdf § p. 1",
@@ -497,7 +497,7 @@
       "kind": "paraphrase",
       "mode": "vector",
       "rank": 1,
-      "ms": 9.2,
+      "ms": 8.9,
       "top3": [
         "data-retention-policy.pdf § p. 2",
         "data-retention-policy.pdf § p. 1",
@@ -509,7 +509,7 @@
       "kind": "paraphrase",
       "mode": "vector",
       "rank": 1,
-      "ms": 8.3,
+      "ms": 8.5,
       "top3": [
         "engineering-handbook.md § Fernbrook Engineering Handbook > Growth > Learning budget",
         "expense-policy.md § Travel and Expense Policy > Travel",
@@ -521,7 +521,7 @@
       "kind": "paraphrase",
       "mode": "vector",
       "rank": 1,
-      "ms": 8.9,
+      "ms": 9.2,
       "top3": [
         "oncall-runbook.md § Wayline On-Call Runbook > Severity levels",
         "customer-faq.html § Frequently Asked Questions > How fast are events delivered?",
@@ -533,7 +533,7 @@
       "kind": "paraphrase",
       "mode": "vector",
       "rank": 2,
-      "ms": 8.1,
+      "ms": 8.3,
       "top3": [
         "release-notes.md § Wayline Release Notes > 3.5.0 (2026-03-10) > Changed",
         "data-retention-policy.pdf § p. 2",
@@ -545,7 +545,7 @@
       "kind": "paraphrase",
       "mode": "vector",
       "rank": 1,
-      "ms": 8.2,
+      "ms": 8.5,
       "top3": [
         "security-policy.txt § -",
         "security-policy.txt § -",
@@ -557,7 +557,7 @@
       "kind": "exact",
       "mode": "keyword",
       "rank": null,
-      "ms": 1.5,
+      "ms": 1.7,
       "top3": []
     },
     {
@@ -565,7 +565,7 @@
       "kind": "exact",
       "mode": "keyword",
       "rank": 1,
-      "ms": 1.1,
+      "ms": 1.3,
       "top3": [
         "api-reference.html § Wayline API Reference > Errors"
       ]
@@ -575,7 +575,7 @@
       "kind": "exact",
       "mode": "keyword",
       "rank": null,
-      "ms": 0.5,
+      "ms": 0.4,
       "top3": []
     },
     {
@@ -583,7 +583,7 @@
       "kind": "exact",
       "mode": "keyword",
       "rank": 1,
-      "ms": 1,
+      "ms": 0.8,
       "top3": [
         "postmortem-pm-2026-014.pdf § p. 2"
       ]
@@ -593,7 +593,7 @@
       "kind": "exact",
       "mode": "keyword",
       "rank": 2,
-      "ms": 0.8,
+      "ms": 0.9,
       "top3": [
         "postmortem-pm-2026-014.pdf § p. 2",
         "oncall-runbook.md § Wayline On-Call Runbook > Common alerts > WL-ALERT-QLAG: delivery queue lag"
@@ -614,7 +614,7 @@
       "kind": "exact",
       "mode": "keyword",
       "rank": null,
-      "ms": 0.4,
+      "ms": 0.3,
       "top3": []
     },
     {
@@ -632,7 +632,7 @@
       "kind": "exact",
       "mode": "keyword",
       "rank": null,
-      "ms": 0.3,
+      "ms": 0.4,
       "top3": []
     },
     {
@@ -640,7 +640,7 @@
       "kind": "exact",
       "mode": "keyword",
       "rank": null,
-      "ms": 0.3,
+      "ms": 0.4,
       "top3": []
     },
     {
@@ -674,7 +674,7 @@
       "kind": "exact",
       "mode": "keyword",
       "rank": null,
-      "ms": 0.3,
+      "ms": 0.4,
       "top3": []
     },
     {
@@ -682,7 +682,7 @@
       "kind": "exact",
       "mode": "keyword",
       "rank": 2,
-      "ms": 1.3,
+      "ms": 0.9,
       "top3": [
         "glossary.txt § -",
         "data-retention-policy.pdf § p. 2"
@@ -693,7 +693,7 @@
       "kind": "exact",
       "mode": "keyword",
       "rank": 1,
-      "ms": 0.7,
+      "ms": 1,
       "top3": [
         "release-notes.md § Wayline Release Notes > 3.6.0 (2026-06-02) > Deprecated"
       ]
@@ -703,7 +703,7 @@
       "kind": "paraphrase",
       "mode": "keyword",
       "rank": null,
-      "ms": 0.3,
+      "ms": 0.5,
       "top3": []
     },
     {
@@ -711,7 +711,7 @@
       "kind": "paraphrase",
       "mode": "keyword",
       "rank": null,
-      "ms": 0.3,
+      "ms": 0.4,
       "top3": []
     },
     {
@@ -743,7 +743,7 @@
       "kind": "paraphrase",
       "mode": "keyword",
       "rank": null,
-      "ms": 0.6,
+      "ms": 0.3,
       "top3": []
     },
     {
@@ -751,7 +751,7 @@
       "kind": "paraphrase",
       "mode": "keyword",
       "rank": null,
-      "ms": 0.5,
+      "ms": 0.3,
       "top3": []
     },
     {
@@ -759,7 +759,7 @@
       "kind": "paraphrase",
       "mode": "keyword",
       "rank": null,
-      "ms": 0.4,
+      "ms": 0.3,
       "top3": []
     },
     {
@@ -767,7 +767,7 @@
       "kind": "paraphrase",
       "mode": "keyword",
       "rank": null,
-      "ms": 0.4,
+      "ms": 0.3,
       "top3": []
     },
     {
@@ -775,7 +775,7 @@
       "kind": "paraphrase",
       "mode": "keyword",
       "rank": null,
-      "ms": 0.4,
+      "ms": 0.3,
       "top3": []
     },
     {
@@ -863,7 +863,7 @@
       "kind": "exact",
       "mode": "hybrid",
       "rank": 1,
-      "ms": 9.2,
+      "ms": 9.4,
       "top3": [
         "api-reference.html § Wayline API Reference > Errors",
         "api-reference.html § Wayline API Reference > Rate limits",
@@ -875,7 +875,7 @@
       "kind": "exact",
       "mode": "hybrid",
       "rank": 1,
-      "ms": 8.3,
+      "ms": 8.5,
       "top3": [
         "api-reference.html § Wayline API Reference > Errors",
         "api-reference.html § Wayline API Reference > Rate limits",
@@ -887,7 +887,7 @@
       "kind": "exact",
       "mode": "hybrid",
       "rank": 1,
-      "ms": 8,
+      "ms": 7.6,
       "top3": [
         "security-policy.txt § -",
         "security-policy.txt § -",
@@ -899,7 +899,7 @@
       "kind": "exact",
       "mode": "hybrid",
       "rank": 1,
-      "ms": 7.6,
+      "ms": 8.1,
       "top3": [
         "postmortem-pm-2026-014.pdf § p. 2",
         "glossary.txt § -",
@@ -911,7 +911,7 @@
       "kind": "exact",
       "mode": "hybrid",
       "rank": 1,
-      "ms": 8.1,
+      "ms": 7.9,
       "top3": [
         "oncall-runbook.md § Wayline On-Call Runbook > Common alerts > WL-ALERT-QLAG: delivery queue lag",
         "postmortem-pm-2026-014.pdf § p. 2",
@@ -947,7 +947,7 @@
       "kind": "exact",
       "mode": "hybrid",
       "rank": 1,
-      "ms": 7.6,
+      "ms": 7.3,
       "top3": [
         "engineering-handbook.md § Fernbrook Engineering Handbook > How we ship > Environments",
         "architecture-overview.md § Wayline Architecture Overview > Regions",
@@ -971,11 +971,11 @@
       "kind": "exact",
       "mode": "hybrid",
       "rank": 1,
-      "ms": 8.4,
+      "ms": 8,
       "top3": [
         "webhook-signatures.md § Verifying Wayline Webhook Signatures > How signing works",
-        "api-reference.html § -",
-        "webhook-signatures.md § Verifying Wayline Webhook Signatures > Rotating a signing secret"
+        "webhook-signatures.md § Verifying Wayline Webhook Signatures > Rotating a signing secret",
+        "glossary.txt § -"
       ]
     },
     {
@@ -983,7 +983,7 @@
       "kind": "exact",
       "mode": "hybrid",
       "rank": 1,
-      "ms": 8,
+      "ms": 7.9,
       "top3": [
         "api-reference.html § Wayline API Reference > Idempotent requests",
         "security-policy.txt § -",
@@ -995,7 +995,7 @@
       "kind": "exact",
       "mode": "hybrid",
       "rank": 1,
-      "ms": 8.1,
+      "ms": 7.7,
       "top3": [
         "postmortem-pm-2026-014.pdf § p. 1",
         "postmortem-pm-2026-014.pdf § p. 2",
@@ -1007,7 +1007,7 @@
       "kind": "exact",
       "mode": "hybrid",
       "rank": 1,
-      "ms": 8.3,
+      "ms": 7.9,
       "top3": [
         "data-retention-policy.pdf § p. 1",
         "data-retention-policy.pdf § p. 2",
@@ -1031,7 +1031,7 @@
       "kind": "exact",
       "mode": "hybrid",
       "rank": 3,
-      "ms": 7.3,
+      "ms": 6.9,
       "top3": [
         "glossary.txt § -",
         "security-policy.txt § -",
@@ -1043,7 +1043,7 @@
       "kind": "exact",
       "mode": "hybrid",
       "rank": 1,
-      "ms": 8.1,
+      "ms": 7.8,
       "top3": [
         "release-notes.md § Wayline Release Notes > 3.6.0 (2026-06-02) > Deprecated",
         "data-retention-policy.pdf § p. 1",
@@ -1055,7 +1055,7 @@
       "kind": "paraphrase",
       "mode": "hybrid",
       "rank": 1,
-      "ms": 8.6,
+      "ms": 8.3,
       "top3": [
         "data-retention-policy.pdf § p. 1",
         "data-retention-policy.pdf § p. 2",
@@ -1067,7 +1067,7 @@
       "kind": "paraphrase",
       "mode": "hybrid",
       "rank": 1,
-      "ms": 9.1,
+      "ms": 8.4,
       "top3": [
         "oncall-runbook.md § Wayline On-Call Runbook > After a night page",
         "engineering-handbook.md § Fernbrook Engineering Handbook > Working arrangements > Core hours",
@@ -1079,7 +1079,7 @@
       "kind": "paraphrase",
       "mode": "hybrid",
       "rank": 1,
-      "ms": 8.8,
+      "ms": 8.3,
       "top3": [
         "engineering-handbook.md § Fernbrook Engineering Handbook > Working arrangements > Working from another country",
         "expense-policy.md § Travel and Expense Policy > Travel",
@@ -1091,7 +1091,7 @@
       "kind": "paraphrase",
       "mode": "hybrid",
       "rank": 1,
-      "ms": 8.7,
+      "ms": 8.5,
       "top3": [
         "webhook-signatures.md § Verifying Wayline Webhook Signatures",
         "api-reference.html § Wayline API Reference > Idempotent requests",
@@ -1103,7 +1103,7 @@
       "kind": "paraphrase",
       "mode": "hybrid",
       "rank": 1,
-      "ms": 9.3,
+      "ms": 8.9,
       "top3": [
         "security-policy.txt § -",
         "onboarding-guide.md § New Engineer Onboarding > Your first week",
@@ -1127,7 +1127,7 @@
       "kind": "paraphrase",
       "mode": "hybrid",
       "rank": 1,
-      "ms": 8.9,
+      "ms": 8.6,
       "top3": [
         "customer-faq.html § Frequently Asked Questions > How long does Wayline wait for my server to respond?",
         "release-notes.md § Wayline Release Notes > 3.5.0 (2026-03-10) > Changed",
@@ -1139,7 +1139,7 @@
       "kind": "paraphrase",
       "mode": "hybrid",
       "rank": 1,
-      "ms": 7.5,
+      "ms": 7.4,
       "top3": [
         "customer-faq.html § Frequently Asked Questions > Why did I receive the same event twice?",
         "customer-faq.html § Frequently Asked Questions > Can events arrive in a different order than they were sent?",
@@ -1151,7 +1151,7 @@
       "kind": "paraphrase",
       "mode": "hybrid",
       "rank": 1,
-      "ms": 8.4,
+      "ms": 7.9,
       "top3": [
         "expense-policy.md § Travel and Expense Policy > Approval limits",
         "expense-policy.md § Travel and Expense Policy > Home office",
@@ -1175,7 +1175,7 @@
       "kind": "paraphrase",
       "mode": "hybrid",
       "rank": 1,
-      "ms": 8.7,
+      "ms": 8.5,
       "top3": [
         "release-notes.md § Wayline Release Notes > 3.5.0 (2026-03-10) > Changed",
         "customer-faq.html § Frequently Asked Questions > Why did I receive the same event twice?",
@@ -1187,7 +1187,7 @@
       "kind": "paraphrase",
       "mode": "hybrid",
       "rank": 7,
-      "ms": 9.3,
+      "ms": 9.1,
       "top3": [
         "postmortem-pm-2026-014.pdf § p. 1",
         "webhook-signatures.md § Verifying Wayline Webhook Signatures > Common mistakes",
@@ -1199,7 +1199,7 @@
       "kind": "paraphrase",
       "mode": "hybrid",
       "rank": 1,
-      "ms": 8.6,
+      "ms": 8.7,
       "top3": [
         "architecture-overview.md § Wayline Architecture Overview > Storage",
         "architecture-overview.md § Wayline Architecture Overview > Request path > Event log",
@@ -1211,7 +1211,7 @@
       "kind": "paraphrase",
       "mode": "hybrid",
       "rank": 1,
-      "ms": 8.1,
+      "ms": 8.3,
       "top3": [
         "architecture-overview.md § Wayline Architecture Overview > Regions",
         "engineering-handbook.md § Fernbrook Engineering Handbook > How we ship > Environments",
@@ -1223,7 +1223,7 @@
       "kind": "paraphrase",
       "mode": "hybrid",
       "rank": 1,
-      "ms": 9,
+      "ms": 9.7,
       "top3": [
         "data-retention-policy.pdf § p. 2",
         "data-retention-policy.pdf § p. 1",
@@ -1235,7 +1235,7 @@
       "kind": "paraphrase",
       "mode": "hybrid",
       "rank": 1,
-      "ms": 8.8,
+      "ms": 9.4,
       "top3": [
         "data-retention-policy.pdf § p. 2",
         "data-retention-policy.pdf § p. 1",
@@ -1247,7 +1247,7 @@
       "kind": "paraphrase",
       "mode": "hybrid",
       "rank": 1,
-      "ms": 8.4,
+      "ms": 8.9,
       "top3": [
         "engineering-handbook.md § Fernbrook Engineering Handbook > Growth > Learning budget",
         "expense-policy.md § Travel and Expense Policy > Travel",
@@ -1259,7 +1259,7 @@
       "kind": "paraphrase",
       "mode": "hybrid",
       "rank": 1,
-      "ms": 8.6,
+      "ms": 8.7,
       "top3": [
         "oncall-runbook.md § Wayline On-Call Runbook > Severity levels",
         "customer-faq.html § Frequently Asked Questions > How fast are events delivered?",
@@ -1271,7 +1271,7 @@
       "kind": "paraphrase",
       "mode": "hybrid",
       "rank": 2,
-      "ms": 8.6,
+      "ms": 9,
       "top3": [
         "release-notes.md § Wayline Release Notes > 3.5.0 (2026-03-10) > Changed",
         "data-retention-policy.pdf § p. 2",
@@ -1283,7 +1283,7 @@
       "kind": "paraphrase",
       "mode": "hybrid",
       "rank": 1,
-      "ms": 9,
+      "ms": 8.9,
       "top3": [
         "security-policy.txt § -",
         "security-policy.txt § -",
@@ -1292,5 +1292,5 @@
     }
   ],
   "answers": null,
-  "report": "Corpus: 13 documents from samples/ (74 chunks), indexed in 2.0 s\nQuestions: 36 (16 exact-term, 20 paraphrased) from eval/questions.json\nEmbedder: local:Xenova/bge-small-en-v1.5 (384d) · Keyword match: all terms · Database: pglite · Depth: top 10\n\n| Mode | Recall@1 | Recall@3 | Recall@5 | Recall@10 | MRR@10 | Mean latency |\n| --- | ---: | ---: | ---: | ---: | ---: | ---: |\n| vector | 0.83 | 0.92 | 0.94 | 0.97 | 0.88 | 8.6 ms |\n| keyword | 0.17 | 0.22 | 0.22 | 0.22 | 0.19 | 0.5 ms |\n| hybrid | 0.89 | 0.97 | 0.97 | 1.00 | 0.93 | 8.4 ms |\n\n| Mode | Exact: Recall@5 | Exact: MRR | Paraphrased: Recall@5 | Paraphrased: MRR |\n| --- | ---: | ---: | ---: | ---: |\n| vector | 0.94 | 0.81 | 0.95 | 0.93 |\n| keyword | 0.50 | 0.44 | 0.00 | 0.00 |\n| hybrid | 1.00 | 0.93 | 0.95 | 0.93 |\n\nHybrid misses (no relevant chunk in the top 5): \n- p12 \"What happens to my webhook URL if my server has been down for a week?\": first relevant at rank 7; top hit postmortem-pm-2026-014.pdf § p. 1"
+  "report": "Corpus: 13 documents from samples/ (72 chunks), indexed in 1.9 s\nQuestions: 36 (16 exact-term, 20 paraphrased) from eval/questions.json\nEmbedder: local:Xenova/bge-small-en-v1.5 (384d) · Keyword match: all terms · Database: pglite · Depth: top 10\n\n| Mode | Recall@1 | Recall@3 | Recall@5 | Recall@10 | MRR@10 | Mean latency |\n| --- | ---: | ---: | ---: | ---: | ---: | ---: |\n| vector | 0.83 | 0.92 | 0.94 | 0.97 | 0.88 | 8.7 ms |\n| keyword | 0.17 | 0.22 | 0.22 | 0.22 | 0.19 | 0.5 ms |\n| hybrid | 0.89 | 0.97 | 0.97 | 1.00 | 0.93 | 8.3 ms |\n\n| Mode | Exact: Recall@5 | Exact: MRR | Paraphrased: Recall@5 | Paraphrased: MRR |\n| --- | ---: | ---: | ---: | ---: |\n| vector | 0.94 | 0.81 | 0.95 | 0.93 |\n| keyword | 0.50 | 0.44 | 0.00 | 0.00 |\n| hybrid | 1.00 | 0.93 | 0.95 | 0.93 |\n\nHybrid misses (no relevant chunk in the top 5): \n- p12 \"What happens to my webhook URL if my server has been down for a week?\": first relevant at rank 7; top hit postmortem-pm-2026-014.pdf § p. 1"
 }

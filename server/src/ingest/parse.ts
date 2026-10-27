@@ -86,8 +86,9 @@ export function parseMarkdown(markdown: string, fallbackTitle: string): ParsedDo
 
 function parseHtml(html: string, fallbackTitle: string): ParsedDocument {
   const turndown = new TurndownService({ headingStyle: "atx", codeBlockStyle: "fenced" });
-  // <head> goes too: otherwise the <title> text becomes a stray paragraph of its own.
-  turndown.remove(["head", "script", "style", "noscript", "nav", "footer", "iframe", "svg"]);
+  // Turndown parses the page as a fragment, so <head> vanishes but <title> survives as an
+  // element; drop it, or the title becomes a stray paragraph of its own.
+  turndown.remove(["title", "script", "style", "noscript", "nav", "footer", "iframe", "svg"]);
   // Markdown is only an intermediate step to find headings; it is never rendered. Turndown's
   // escaping would store `max_rows` as `max\_rows`, which breaks keyword search and display.
   turndown.escape = (text) => text;
@@ -113,6 +114,7 @@ export interface PdfTextItem {
   str: string;
   /** Baseline position, origin bottom-left, so y decreases down the page. */
   y: number;
+  fontSize: number;
   hasEOL: boolean;
 }
 
@@ -120,14 +122,14 @@ export interface PdfTextItem {
  * PDFs store positioned lines, not paragraphs: every visual line ends in a hard break and
  * paragraph breaks exist only as extra vertical space. Joining wrapped lines restores real
  * sentences (which the chunker and citations split on), and a gap clearly larger than the
- * page's typical line spacing starts a new paragraph.
+ * line height starts a new paragraph.
  */
 export function pdfPageText(items: PdfTextItem[]): string {
-  const lines: { text: string; y: number }[] = [];
-  let current: { text: string; y: number } | null = null;
+  const lines: { text: string; y: number; fontSize: number }[] = [];
+  let current: { text: string; y: number; fontSize: number } | null = null;
   for (const item of items) {
     if (item.str) {
-      current ??= { text: "", y: item.y };
+      current ??= { text: "", y: item.y, fontSize: item.fontSize };
       current.text += item.str;
     }
     if (item.hasEOL && current) {
@@ -138,20 +140,23 @@ export function pdfPageText(items: PdfTextItem[]): string {
   if (current) lines.push(current);
 
   const kept = lines.map((l) => ({ ...l, text: l.text.trim() })).filter((l) => l.text);
-  // The tightest spacing between consecutive lines is the page's line height.
+  // Line height is the tightest spacing between consecutive lines, capped at 1.5x the font
+  // size so a page made only of separate paragraphs (no wrapped lines) still splits.
   const gaps = kept.slice(1).map((l, i) => kept[i]!.y - l.y).filter((g) => g > 0);
-  const lineGap = gaps.length ? Math.min(...gaps) : 0;
+  const tightest = gaps.length ? Math.min(...gaps) : Infinity;
 
   const paragraphs: string[] = [];
   kept.forEach((line, i) => {
-    const gap = i === 0 ? 0 : kept[i - 1]!.y - line.y;
+    const prev = kept[i - 1];
+    const gap = prev ? prev.y - line.y : 0;
+    const lineHeight = Math.min(tightest, prev && prev.fontSize > 0 ? prev.fontSize * 1.5 : Infinity);
     // A non-positive gap means the text jumped up the page (a new column), so break there too.
-    const newParagraph = i === 0 || gap <= 0 || (lineGap > 0 && gap > lineGap * 1.5);
+    const newParagraph = !prev || gap <= 0 || gap > lineHeight * 1.5;
     if (newParagraph) paragraphs.push(line.text);
     else {
-      const prev = paragraphs.pop()!;
+      const last = paragraphs.pop()!;
       // A line ending in "-" is either a hyphenated word or an identifier like "prod-"; don't add a space.
-      paragraphs.push(prev.endsWith("-") ? prev + line.text : `${prev} ${line.text}`);
+      paragraphs.push(last.endsWith("-") ? last + line.text : `${last} ${line.text}`);
     }
   });
   return paragraphs.join("\n\n");
