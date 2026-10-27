@@ -1,3 +1,5 @@
+import { mkdir } from "node:fs/promises";
+import path from "node:path";
 import { PGlite, type Transaction } from "@electric-sql/pglite";
 import { vector } from "@electric-sql/pglite-pgvector";
 import pg from "pg";
@@ -30,6 +32,8 @@ export async function openDb(opts: OpenDbOptions): Promise<Db> {
 }
 
 async function openPglite(dataDir?: string): Promise<Db> {
+  // PGlite creates its own directory but not missing parents (e.g. data/ on a fresh clone).
+  if (dataDir) await mkdir(path.dirname(dataDir), { recursive: true });
   const db = await PGlite.create(dataDir, { extensions: { vector } });
   const wrap = (q: PGlite | Transaction): Queryable => ({
     async query<T>(sql: string, params?: unknown[]) {
