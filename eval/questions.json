@@ -1,0 +1,236 @@
+{
+  "description": "Retrieval questions over samples/. Each question lists one or more passages that answer it; a retrieved chunk is relevant when it comes from that document and contains the passage text (whitespace-insensitive). 'exact' questions hinge on an identifier, code or acronym; 'paraphrase' questions are worded differently from the documents.",
+  "questions": [
+    {
+      "id": "x01",
+      "kind": "exact",
+      "question": "What does error code WL-4291 mean?",
+      "relevant": [
+        { "doc": "api-reference.html", "text": "Rate limit exceeded." },
+        { "doc": "api-reference.html", "text": "rejected with HTTP status 429" }
+      ]
+    },
+    {
+      "id": "x02",
+      "kind": "exact",
+      "question": "When does the API return WL-4130?",
+      "relevant": [{ "doc": "api-reference.html", "text": "The event payload is larger than 256 KB." }]
+    },
+    {
+      "id": "x03",
+      "kind": "exact",
+      "question": "What does SEC-06 require?",
+      "relevant": [{ "doc": "security-policy.txt", "text": "a data processing agreement (DPA) is signed" }]
+    },
+    {
+      "id": "x04",
+      "kind": "exact",
+      "question": "What is action item ACT-113?",
+      "relevant": [{ "doc": "postmortem-pm-2026-014.pdf", "text": "ACT-113: Add an alert when database connections exceed 90% of the pool." }]
+    },
+    {
+      "id": "x05",
+      "kind": "exact",
+      "question": "When does WL-ALERT-QLAG fire?",
+      "relevant": [{ "doc": "oncall-runbook.md", "text": "delivery queue lag stays above 120 seconds for five minutes" }]
+    },
+    {
+      "id": "x06",
+      "kind": "exact",
+      "question": "What was fixed in 3.5.1?",
+      "relevant": [{ "doc": "release-notes.md", "text": "Fixed a database connection leak in the retry scheduler" }]
+    },
+    {
+      "id": "x07",
+      "kind": "exact",
+      "question": "What does MTTA stand for?",
+      "relevant": [{ "doc": "glossary.txt", "text": "MTTA: Mean time to acknowledge." }]
+    },
+    {
+      "id": "x08",
+      "kind": "exact",
+      "question": "What is stg-eu1?",
+      "relevant": [{ "doc": "engineering-handbook.md", "text": "is staging, hosted in Frankfurt" }]
+    },
+    {
+      "id": "x09",
+      "kind": "exact",
+      "question": "What happens to events sent with a wl_test_ key?",
+      "relevant": [{ "doc": "release-notes.md", "text": "Events sent with a test key are never delivered to production endpoints." }]
+    },
+    {
+      "id": "x10",
+      "kind": "exact",
+      "question": "How is the Wayline-Signature v1 value computed?",
+      "relevant": [{ "doc": "webhook-signatures.md", "text": "is an HMAC-SHA256 of the string" }]
+    },
+    {
+      "id": "x11",
+      "kind": "exact",
+      "question": "How long is an Idempotency-Key remembered?",
+      "relevant": [
+        { "doc": "api-reference.html", "text": "Wayline remembers each key for 24 hours" },
+        { "doc": "architecture-overview.md", "text": "remembering each key for 24 hours" }
+      ]
+    },
+    {
+      "id": "x12",
+      "kind": "exact",
+      "question": "What happened in PM-2026-014?",
+      "relevant": [{ "doc": "postmortem-pm-2026-014.pdf", "text": "webhook deliveries in the prod-us2 region stalled for 47 minutes" }]
+    },
+    {
+      "id": "x13",
+      "kind": "exact",
+      "question": "How long does DRP-3 keep billing records?",
+      "relevant": [{ "doc": "data-retention-policy.pdf", "text": "Billing and invoicing records: 7 years" }]
+    },
+    {
+      "id": "x14",
+      "kind": "exact",
+      "question": "Is 198.51.100.0/24 one of Wayline's delivery IP ranges?",
+      "relevant": [{ "doc": "customer-faq.html", "text": "Deliveries from the US region come from" }]
+    },
+    {
+      "id": "x15",
+      "kind": "exact",
+      "question": "What is our RTO?",
+      "relevant": [{ "doc": "data-retention-policy.pdf", "text": "Our recovery time objective (RTO) is 4 hours." }]
+    },
+    {
+      "id": "x16",
+      "kind": "exact",
+      "question": "When will /v1/hooks be removed?",
+      "relevant": [{ "doc": "release-notes.md", "text": "will be removed in Wayline 4.0" }]
+    },
+    {
+      "id": "p01",
+      "kind": "paraphrase",
+      "question": "How long do we keep database backups?",
+      "relevant": [{ "doc": "data-retention-policy.pdf", "text": "each one is kept for 35 days" }]
+    },
+    {
+      "id": "p02",
+      "kind": "paraphrase",
+      "question": "Do I get time off if an alert wakes me up in the middle of the night?",
+      "relevant": [{ "doc": "oncall-runbook.md", "text": "take the morning off" }]
+    },
+    {
+      "id": "p03",
+      "kind": "paraphrase",
+      "question": "Am I allowed to work while travelling abroad for a few weeks?",
+      "relevant": [{ "doc": "engineering-handbook.md", "text": "for up to 30 days in any rolling 12-month period" }]
+    },
+    {
+      "id": "p04",
+      "kind": "paraphrase",
+      "question": "How can my server tell that a request genuinely came from Wayline and not an attacker?",
+      "relevant": [
+        { "doc": "webhook-signatures.md", "text": "Signatures let your server prove that a delivery really came from Wayline" },
+        { "doc": "webhook-signatures.md", "text": "Compute the HMAC-SHA256" }
+      ]
+    },
+    {
+      "id": "p05",
+      "kind": "paraphrase",
+      "question": "Someone took my work computer from my bag at the airport. Who do I tell?",
+      "relevant": [{ "doc": "security-policy.txt", "text": "report it to security@fernbrook.example within 1 hour" }]
+    },
+    {
+      "id": "p06",
+      "kind": "paraphrase",
+      "question": "Why did deliveries grind to a halt in March?",
+      "relevant": [
+        { "doc": "postmortem-pm-2026-014.pdf", "text": "changed the retry scheduler to open a database transaction" },
+        { "doc": "postmortem-pm-2026-014.pdf", "text": "The connection pool reached its limit" }
+      ]
+    },
+    {
+      "id": "p07",
+      "kind": "paraphrase",
+      "question": "How long will Wayline wait on a slow receiver before giving up on that attempt?",
+      "relevant": [
+        { "doc": "customer-faq.html", "text": "Each delivery attempt waits 10 seconds for a response." },
+        { "doc": "architecture-overview.md", "text": "with a 10-second timeout" }
+      ]
+    },
+    {
+      "id": "p08",
+      "kind": "paraphrase",
+      "question": "Why would my app process the same notification twice?",
+      "relevant": [{ "doc": "customer-faq.html", "text": "Wayline guarantees at-least-once delivery." }]
+    },
+    {
+      "id": "p09",
+      "kind": "paraphrase",
+      "question": "Who has to sign off before I spend 1,500 EUR?",
+      "relevant": [{ "doc": "expense-policy.md", "text": "Anything above 1,000 EUR needs approval from a director." }]
+    },
+    {
+      "id": "p10",
+      "kind": "paraphrase",
+      "question": "When can someone who just joined start carrying the pager on their own?",
+      "relevant": [{ "doc": "onboarding-guide.md", "text": "at the earliest in your eighth week" }]
+    },
+    {
+      "id": "p11",
+      "kind": "paraphrase",
+      "question": "How many times will an event be re-sent to an endpoint that keeps failing?",
+      "relevant": [{ "doc": "release-notes.md", "text": "retried up to 15 times over roughly 72 hours" }]
+    },
+    {
+      "id": "p12",
+      "kind": "paraphrase",
+      "question": "What happens to my webhook URL if my server has been down for a week?",
+      "relevant": [{ "doc": "customer-faq.html", "text": "Wayline disables the endpoint" }]
+    },
+    {
+      "id": "p13",
+      "kind": "paraphrase",
+      "question": "Where are the contents of events stored and how are they protected?",
+      "relevant": [{ "doc": "architecture-overview.md", "text": "encrypted with envelope encryption" }]
+    },
+    {
+      "id": "p14",
+      "kind": "paraphrase",
+      "question": "Does data from European customers ever leave Europe?",
+      "relevant": [{ "doc": "architecture-overview.md", "text": "processed and stored only in the EU region" }]
+    },
+    {
+      "id": "p15",
+      "kind": "paraphrase",
+      "question": "A user asked us to delete everything we know about them. How long do we have?",
+      "relevant": [{ "doc": "data-retention-policy.pdf", "text": "completed within 30 days of being verified" }]
+    },
+    {
+      "id": "p16",
+      "kind": "paraphrase",
+      "question": "In a worst-case restore, how much recent data could we lose?",
+      "relevant": [{ "doc": "data-retention-policy.pdf", "text": "Our recovery point objective (RPO) is 6 hours" }]
+    },
+    {
+      "id": "p17",
+      "kind": "paraphrase",
+      "question": "How much money do I get each year for books and training?",
+      "relevant": [{ "doc": "engineering-handbook.md", "text": "annual learning budget of 1,200 EUR" }]
+    },
+    {
+      "id": "p18",
+      "kind": "paraphrase",
+      "question": "How fast must someone take charge when the whole service goes down?",
+      "relevant": [{ "doc": "oncall-runbook.md", "text": "An incident commander must be assigned within 15 minutes" }]
+    },
+    {
+      "id": "p19",
+      "kind": "paraphrase",
+      "question": "How often do we practise recovering the system from scratch?",
+      "relevant": [{ "doc": "data-retention-policy.pdf", "text": "runs a full restore drill every quarter" }]
+    },
+    {
+      "id": "p20",
+      "kind": "paraphrase",
+      "question": "Is it okay to keep a password in a private git repo?",
+      "relevant": [{ "doc": "security-policy.txt", "text": "Secrets must never be committed to a repository" }]
+    }
+  ]
+}
