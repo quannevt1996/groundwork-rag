@@ -5,6 +5,22 @@ import { reciprocalRankFusion } from "./rrf.js";
 
 export type SearchMode = "vector" | "keyword" | "hybrid";
 
+/**
+ * How a keyword query matches chunks.
+ * - "all": every term must appear. websearch_to_tsquery also gives users "quoted phrases",
+ *   OR and -exclusions. Precise, but a question with one word the text doesn't use finds nothing.
+ * - "any": the same stemmed terms OR-ed together, ranked by how often they occur. Finds far
+ *   more, but Postgres ranking has no IDF, so common words weigh as much as rare identifiers.
+ * The eval measures both; "all" makes the better hybrid partner (see README).
+ */
+export type KeywordMatch = "all" | "any";
+
+const KEYWORD_QUERY: Record<KeywordMatch, string> = {
+  all: "websearch_to_tsquery('english', $2)",
+  // plainto_tsquery does the stemming and stop-word removal; turning its ANDs into ORs lets any term match.
+  any: "replace(plainto_tsquery('english', $2)::text, ' & ', ' | ')::tsquery",
+};
+
 export interface RetrievedChunk {
   chunkId: string;
   documentId: string;
@@ -41,6 +57,7 @@ export class Retriever {
   constructor(
     private readonly db: Db,
     private readonly embedder: Embedder,
+    private readonly keywordMatch: KeywordMatch = "all",
   ) {}
 
   async search(collectionId: string, query: string, { mode = "hybrid", k = 8 }: SearchOptions = {}): Promise<RetrievedChunk[]> {
@@ -99,12 +116,17 @@ export class Retriever {
     });
   }
 
+  /**
+   * ts_rank_cd ties are common (same terms, same counts). Chunk ids are random, so breaking
+   * ties by id reordered results on every ingest; prefer the shorter (denser) chunk, then content.
+   */
   private async keywordSearch(collectionId: string, query: string, limit: number): Promise<Hit[]> {
     return this.db.query<Hit>(
-      `SELECT id, ts_rank_cd(tsv, q) AS score
-       FROM chunks, websearch_to_tsquery('english', $2) q
+      `WITH query AS (SELECT ${KEYWORD_QUERY[this.keywordMatch]} AS q)
+       SELECT id, ts_rank_cd(tsv, q) AS score
+       FROM chunks, query
        WHERE collection_id = $1 AND tsv @@ q
-       ORDER BY score DESC, id LIMIT $3`,
+       ORDER BY score DESC, length(content), content LIMIT $3`,
       [collectionId, query, limit],
     );
   }

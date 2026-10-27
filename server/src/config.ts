@@ -25,6 +25,8 @@ const EnvSchema = z.object({
   ANTHROPIC_EFFORT: z.enum(["low", "medium", "high", "xhigh", "max"]).default("medium"),
 
   RETRIEVAL_TOP_K: z.coerce.number().int().min(1).max(30).default(8),
+  /** "all" = every query term must match (default); "any" = OR of terms. See retrieval/retriever.ts. */
+  KEYWORD_MATCH: z.enum(["all", "any"]).default("all"),
   /** Below this cosine similarity, and with no keyword hit, we answer "not found" without calling the model. */
   MIN_VECTOR_SIMILARITY: z.coerce.number().min(-1).max(1).default(0.55),
 });

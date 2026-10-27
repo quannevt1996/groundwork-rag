@@ -6,6 +6,7 @@
  *
  *   npm run eval                     # EMBEDDER from the environment (default: local)
  *   EMBEDDER=hash npm run eval       # no model download, deterministic (what CI runs)
+ *   KEYWORD_MATCH=any npm run eval   # OR-of-terms keyword search instead of all-terms
  *   npm run eval -- --answers        # also grade cited answers; needs ANTHROPIC_API_KEY
  */
 import { mkdir, writeFile } from "node:fs/promises";
@@ -106,7 +107,7 @@ try {
   const lines = [
     `Corpus: ${files.length} documents from samples/ (${chunks.length} chunks), indexed in ${(indexMs / 1000).toFixed(1)} s`,
     `Questions: ${questions.length} (${count("exact")} exact-term, ${count("paraphrase")} paraphrased) from eval/questions.json`,
-    `Embedder: ${embedder.id} (${embedder.dim}d) · Database: ${db.kind} · Depth: top ${EVAL_DEPTH}`,
+    `Embedder: ${embedder.id} (${embedder.dim}d) · Keyword match: ${config.KEYWORD_MATCH} terms · Database: ${db.kind} · Depth: top ${EVAL_DEPTH}`,
     "",
     `| Mode | ${RECALL_CUTOFFS.map((k) => `Recall@${k}`).join(" | ")} | MRR@${EVAL_DEPTH} | Mean latency |`,
     `| --- | ${RECALL_CUTOFFS.map(() => "---:").join(" | ")} | ---: | ---: |`,
@@ -155,7 +156,9 @@ try {
   }
 
   // 6. Save everything, keyed by embedder so runs with different models don't overwrite each other.
-  const slug = embedder.id.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  const slug =
+    embedder.id.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") +
+    (config.KEYWORD_MATCH === "any" ? "-keyword-any" : "");
   const outFile = path.join(EVAL_DIR, "results", `${slug}.json`);
   await mkdir(path.dirname(outFile), { recursive: true });
   await writeFile(
@@ -164,6 +167,7 @@ try {
       {
         generatedAt: new Date().toISOString(),
         embedder: { id: embedder.id, dim: embedder.dim },
+        keywordMatch: config.KEYWORD_MATCH,
         database: db.kind,
         corpus: { documents: files.length, chunks: chunks.length, indexMs: Math.round(indexMs) },
         depth: EVAL_DEPTH,

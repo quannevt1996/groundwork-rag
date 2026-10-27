@@ -25,7 +25,7 @@ export async function createServices(config: Config, db: Db, embedder: Embedder,
   const store = new Store(db);
   const interrupted = await store.failInterruptedDocuments();
   if (interrupted > 0) console.warn(`Marked ${interrupted} interrupted ingestion job(s) as failed.`);
-  const retriever = new Retriever(db, embedder);
+  const retriever = new Retriever(db, embedder, config.KEYWORD_MATCH);
   return {
     config,
     db,
