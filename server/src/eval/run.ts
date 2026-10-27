@@ -5,7 +5,7 @@
  * embedding model is cached; no API key needed.
  *
  *   npm run eval                     # EMBEDDER from the environment (default: local)
- *   EMBEDDER=hash npm run eval       # no model download, deterministic (what CI runs)
+ *   EMBEDDER=hash npm run eval       # no model download, deterministic
  *   KEYWORD_MATCH=any npm run eval   # OR-of-terms keyword search instead of all-terms
  *   npm run eval -- --answers        # also grade cited answers; needs ANTHROPIC_API_KEY
  */

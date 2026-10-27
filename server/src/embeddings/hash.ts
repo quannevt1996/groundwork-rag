@@ -3,7 +3,7 @@ import { l2Normalize, type Embedder } from "./embedder.js";
 /**
  * Deterministic feature-hashing embedder (bag of words + bigrams). It carries no
  * semantics beyond lexical overlap, but it is instant and offline, which makes it
- * the right embedder for unit tests and for CI runs that can't download a model.
+ * the right embedder for unit tests and for offline runs that can't download a model.
  */
 export class HashEmbedder implements Embedder {
   readonly id: string;

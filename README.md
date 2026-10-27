@@ -40,7 +40,7 @@ Other commands:
 | `npm test` | 66 offline tests |
 | `npm run typecheck` / `npm run build` | Both workspaces |
 
-On Linux x64, `onnxruntime-node` downloads CUDA providers during install unless `ONNXRUNTIME_NODE_INSTALL=skip` is set. The app only uses the CPU build, so setting it saves a large download (CI does this).
+On Linux x64, `onnxruntime-node` downloads CUDA providers during install unless `ONNXRUNTIME_NODE_INSTALL=skip` is set. The app only uses the CPU build, so setting it saves a large download.
 
 ## Architecture
 
@@ -174,7 +174,7 @@ If no chunk matched the keyword search and the best vector similarity is below `
 
 ### What has and hasn't been verified
 
-The answer path is covered by tests that use a scripted client replaying SDK-shaped stream events (`test/helpers/fake-llm.ts`): text and citation deltas, refusals, truncation, mid-stream errors and follow-up rewriting. CI runs only those tests, so it needs no key.
+The answer path is covered by tests that use a scripted client replaying SDK-shaped stream events (`test/helpers/fake-llm.ts`): text and citation deltas, refusals, truncation, mid-stream errors and follow-up rewriting. Those tests need no key.
 
 It has also been checked by hand against the live API (`claude-opus-5-5`, effort `low`, sample corpus, hybrid mode). Asked "How long do we keep database backups?", worded away from the policy ("backups" vs "restore points"), it answered that "a restore point is taken every 6 hours and each one is kept for 35 days", with six sentence-level citations, all into *Policy DRP-3: Data Retention and Deletion*. The request used 5,095 input and 358 output tokens. The optional `npm run eval -- --answers` grading has not been run.
 
@@ -244,7 +244,7 @@ Embedder: local:Xenova/bge-small-en-v1.5 (384d) · Keyword match: any terms · D
 
 Keyword search on its own improves sharply (Recall@5 0.22 → 0.81, and it beats vector on exact terms), but **hybrid gets worse**: Recall@1 drops from 0.89 to 0.75 and paraphrased MRR from 0.93 to 0.74. For paraphrased questions the OR query ranks chunks by common words, and RRF gives that list as much weight as the much better vector list. This is why all-terms is the default. A keyword ranker with IDF (BM25) or a weighted fusion tuned on held-out questions are the obvious next experiments.
 
-**CI** runs the same eval with the hash embedder (`EMBEDDER=hash`), which needs no download. It checks the pipeline end to end; its scores (hybrid Recall@5 0.53) only reflect lexical overlap and are not meant as a quality signal. Results for all three runs are in `eval/results/`.
+`EMBEDDER=hash npm run eval` runs the same eval with the hash embedder, which needs no download. It checks the pipeline end to end; its scores (hybrid Recall@5 0.53) only reflect lexical overlap and are not meant as a quality signal. Results for all three runs are in `eval/results/`.
 
 **Caveats.** This is a small, self-written benchmark: 72 chunks is an easy search space, and the same person wrote the documents and the questions, which flatters every mode. Treat the numbers as a regression check and a way to compare configurations, not as a claim about real-world accuracy.
 
@@ -266,8 +266,6 @@ npm test
 - **Answerer**: no-key mode, streamed answer with resolved and persisted citations, the request sent to the model, the not-found short-circuit, refusal, truncation, mid-stream API errors, follow-up rewriting, cross-collection access.
 - **HTTP API** via `app.request`: health, collections, multipart upload with background processing and de-duplication, unsupported files, search per mode, SSE chat, conversations, deletes, error responses.
 - **Eval**: metrics, relevance matching, dataset validation, answer grading.
-
-**CI** (`.github/workflows/ci.yml`, Node 22): `npm ci`, typecheck, tests, build, then the hash-embedder eval.
 
 ## API
 
@@ -294,7 +292,7 @@ All settings are environment variables, optionally in a root `.env`; [`.env.exam
 - **Keyword ranking has no IDF.** `ts_rank_cd` counts term occurrences, which is why any-term matching hurt hybrid results. BM25 inside Postgres (for example the `pg_search` extension) would be the next experiment, along with weighted RRF tuned on held-out questions.
 - **No reranker.** A cross-encoder over the fused top 30 is the usual next step for precision at rank 1.
 - **The eval is small and self-written.** It needs real questions from real users, and a held-out split before any parameter is tuned on it.
-- **Live answers are spot-checked, not tested in CI.** The automated tests use a scripted client (see above), and answer grading is mechanical, not a judgement of correctness.
+- **Live answers are spot-checked, not covered by automated tests.** The test suite uses a scripted client (see above), and answer grading is mechanical, not a judgement of correctness.
 - **Single-process job queue.** Ingestion jobs live in memory, so they don't survive a restart (they're marked failed) and don't scale past one instance. A jobs table claimed with `FOR UPDATE SKIP LOCKED` would fix both.
 - **PGlite is single-process**, so the seed script and the server can't share a data directory at the same time.
 - **PDFs**: no OCR for scanned files, and sections are pages rather than detected headings.
