@@ -8,6 +8,7 @@
     "build": "tsc -p tsconfig.build.json",
     "start": "node dist/index.js",
     "seed": "tsx src/scripts/seed.ts",
+    "ingest": "tsx src/scripts/ingest.ts",
     "eval": "tsx src/eval/run.ts",
     "typecheck": "tsc --noEmit",
     "test": "vitest run"
