@@ -1,0 +1,22 @@
+FERNBROOK LABS INFORMATION SECURITY POLICY
+Version 4.0. Owner: Security team. Applies to all employees and contractors.
+
+This policy sets the minimum security requirements for everyone who works at Fernbrook Labs. Each section has an identifier so that tickets, audits and exceptions can refer to it precisely.
+
+SEC-01 ACCESS CONTROL. Access is granted on the principle of least privilege: you get the access your current role needs and nothing more. Access is requested through Gatehouse and approved by the system owner. Managers review their team's access every quarter, and access that is no longer needed is removed.
+
+SEC-02 AUTHENTICATION. All internal tools sit behind single sign-on through the company identity provider. Production systems additionally require a hardware security key; one-time codes sent by SMS are not accepted anywhere. Single sign-on sessions expire after 12 hours.
+
+SEC-03 DEVICES. Company laptops use full-disk encryption and lock the screen after 5 minutes of inactivity. If a company device is lost or stolen, report it to security@fernbrook.example within 1 hour, even outside working hours. The security team will lock and remotely wipe the device. Reporting quickly is what matters; nobody is blamed for losing a laptop.
+
+SEC-04 SECRETS. Passwords, API keys, tokens and certificates are stored in Vault. Secrets must never be committed to a repository, pasted into chat or written into tickets. Production credentials are rotated every 90 days. A secret found in source code is treated as leaked and is revoked immediately, even if the repository is private.
+
+SEC-05 LOGGING AND MONITORING. Every access to production systems is logged. Production access logs are kept for one year and are reviewed automatically for unusual activity.
+
+SEC-06 VENDORS. Before a new vendor may process customer data, the security team reviews the vendor and a data processing agreement (DPA) is signed. Purchasing will not approve a contract for such a vendor without both.
+
+SEC-07 INCIDENT REPORTING. Report any suspected security incident to the security team within 24 hours of noticing it, using the #security-incidents channel or the on-call security engineer. If personal data of customers is affected, Fernbrook notifies the affected customers within 72 hours of confirming the breach.
+
+SEC-08 ACCEPTABLE USE. Company systems are for company work. Do not install software from untrusted sources, and do not use personal cloud storage for company documents.
+
+SEC-09 EXCEPTIONS. Exceptions to this policy must be requested in writing and approved by the CISO. Every exception has an owner and expires after 6 months unless it is renewed.

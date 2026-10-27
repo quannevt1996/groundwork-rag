@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Wayline Help Center: Frequently Asked Questions</title>
+</head>
+<body>
+  <nav><a href="/help">Help Center</a> › FAQ</nav>
+  <main>
+    <h1>Frequently Asked Questions</h1>
+
+    <h2>Why was my endpoint disabled?</h2>
+    <p>If every delivery to an endpoint has failed for five consecutive days, Wayline disables the endpoint so that it stops consuming retries. We email the account owners after three days of failures, before this happens. You can re-enable the endpoint from the dashboard at any time. Events that were not delivered while it was disabled can be replayed for as long as their payloads are retained, which is 30 days.</p>
+
+    <h2>Which IP addresses do deliveries come from?</h2>
+    <p>If your firewall only accepts traffic from known addresses, allow these ranges. Deliveries from the US region come from <code>203.0.113.0/24</code> and <code>198.51.100.0/24</code>. Deliveries from the EU region come from <code>192.0.2.0/24</code>. We announce changes to these ranges at least 30 days in advance.</p>
+
+    <h2>How fast are events delivered?</h2>
+    <p>Most events reach your endpoint in well under a second. Our service level objective is that 99.9% of events are delivered on the first attempt within 60 seconds of being published, not counting time spent waiting on endpoints that are failing or slow.</p>
+
+    <h2>Why did I receive the same event twice?</h2>
+    <p>Wayline guarantees at-least-once delivery. If your endpoint processed an event but the response was lost, for example because of a timeout, we cannot tell that it succeeded and we send it again. Every event has a unique <code>id</code>; store the IDs you have processed and skip any you have already seen.</p>
+
+    <h2>How long does Wayline wait for my server to respond?</h2>
+    <p>Each delivery attempt waits 10 seconds for a response. If your server has not answered by then, the attempt counts as failed and is retried later. Respond with a 2xx status as soon as you have stored the event, and do any slow work in the background.</p>
+
+    <h2>Can events arrive in a different order than they were sent?</h2>
+    <p>Yes, by default. Deliveries run in parallel and retries can overtake newer events. Since version 3.6.0 you can opt into ordered delivery per key for an endpoint; events with the same ordering key are then delivered one at a time.</p>
+
+    <h2>Is there a contractual uptime guarantee?</h2>
+    <p>Customers on the Enterprise plan have a service level agreement of 99.95% monthly availability for the publishing API. If we miss it, you receive service credits on your next invoice. Other plans have no contractual guarantee.</p>
+  </main>
+  <footer>Still stuck? Contact support from your dashboard.</footer>
+</body>
+</html>

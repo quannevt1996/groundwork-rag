@@ -1,0 +1,103 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [5 0 R 7 0 R] /Count 2 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+4 0 obj
+<< /Length 1245 >>
+stream
+BT
+/F1 10.5 Tf
+15 TL
+72 740 Td
+(Fernbrook Labs Policy DRP-3: Data Retention and Deletion) Tj T*
+T*
+(Version 2.1. Owner: Security and Compliance. Applies to all Wayline production systems in every) Tj T*
+(region.) Tj T*
+T*
+(1. Purpose and scope) Tj T*
+T*
+(We keep customer data only as long as we need it to run the service, meet legal obligations and) Tj T*
+(recover from failures. This policy states how long each kind of data is kept and how it is) Tj T*
+(deleted. It applies to prod-us2 and prod-eu1, and to every copy of production data, including) Tj T*
+(restore points and logs.) Tj T*
+T*
+(2. Retention schedule) Tj T*
+T*
+(Event payloads: 30 days after the event is published. This also applies to deliveries in the) Tj T*
+(dead-letter queue.) Tj T*
+(Delivery attempt records \(status codes, response times, error messages\): 90 days.) Tj T*
+(Audit logs of account and configuration changes: 400 days.) Tj T*
+(Database snapshots: a restore point is taken every 6 hours and each one is kept for 35 days.) Tj T*
+(Billing and invoicing records: 7 years, as required by tax law.) Tj T*
+T*
+(Data is deleted automatically when its retention period ends. Monthly partitions are dropped as) Tj T*
+(a whole rather than deleted row by row.) Tj T*
+ET
+endstream
+endobj
+5 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 4 0 R >>
+endobj
+6 0 obj
+<< /Length 1251 >>
+stream
+BT
+/F1 10.5 Tf
+15 TL
+72 740 Td
+(3. Customer requests) Tj T*
+T*
+(When a customer closes their account, all of their data is deleted from live systems within 30) Tj T*
+(days.) Tj T*
+T*
+(Requests to erase the personal data of an individual are completed within 30 days of being) Tj T*
+(verified. Restore points are immutable and are never edited to remove a single record. Erased) Tj T*
+(data can therefore remain inside existing restore points until they expire, which happens at) Tj T*
+(most 35 days later. If we ever restore from such a restore point, erasure requests are) Tj T*
+(re-applied before the restored system serves traffic.) Tj T*
+T*
+(4. Recovery objectives) Tj T*
+T*
+(Our recovery point objective \(RPO\) is 6 hours, matching the snapshot interval. Our recovery) Tj T*
+(time objective \(RTO\) is 4 hours. The infrastructure team runs a full restore drill every) Tj T*
+(quarter and records the measured restore time.) Tj T*
+T*
+(5. Legal holds) Tj T*
+T*
+(A legal hold suspends deletion for the data it covers until the hold is lifted by the legal) Tj T*
+(team. Data under a legal hold is still access-controlled as described in SEC-01.) Tj T*
+T*
+(6. Review) Tj T*
+T*
+(This policy is reviewed once a year by Security and Compliance.) Tj T*
+ET
+endstream
+endobj
+7 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 6 0 R >>
+endobj
+8 0 obj
+<< /Title (Policy DRP-3: Data Retention and Deletion) >>
+endobj
+xref
+0 9
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000121 00000 n 
+0000000218 00000 n 
+0000001515 00000 n 
+0000001641 00000 n 
+0000002944 00000 n 
+0000003070 00000 n 
+trailer
+<< /Size 9 /Root 1 0 R /Info 8 0 R >>
+startxref
+3142
+%%EOF

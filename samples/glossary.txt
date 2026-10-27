@@ -1,0 +1,33 @@
+WAYLINE GLOSSARY
+
+Short definitions of terms and acronyms used across Wayline documentation. Terms are listed alphabetically.
+
+At-least-once delivery: A guarantee that every event is delivered one or more times. Receivers must tolerate duplicates.
+
+DLQ: Dead-letter queue. Where a delivery ends up after its final retry fails. Deliveries in the DLQ follow the event payload retention period and can be replayed from the dashboard.
+
+DPA: Data processing agreement. The contract that governs how a vendor handles personal data on our behalf.
+
+Fan-out: Turning one published event into one delivery per subscribed endpoint.
+
+HMAC: Hash-based message authentication code. Wayline signs deliveries with HMAC-SHA256.
+
+IC: Incident commander. The person who coordinates the response to a SEV1 or SEV2 incident. The IC does not debug; they make decisions, assign work and keep stakeholders informed.
+
+MTTA: Mean time to acknowledge. The average time between a page being sent and someone acknowledging it.
+
+MTTR: Mean time to recovery. The average time from the start of an incident until service is restored.
+
+p95: The 95th percentile. A p95 latency of 2 seconds means 95% of requests completed in 2 seconds or less.
+
+PII: Personally identifiable information, such as names, email addresses or IP addresses.
+
+RPO: Recovery point objective. The maximum amount of data, measured in time, that we accept losing when we restore from backup after a disaster.
+
+RTO: Recovery time objective. The maximum time we accept for restoring service after a disaster.
+
+SLA: Service level agreement. A contractual promise to customers, usually with financial consequences such as service credits.
+
+SLO: Service level objective. An internal reliability target that is stricter than any SLA, so that we notice problems before customers are owed credits.
+
+TTL: Time to live. How long a cached value or a stored key stays valid before it expires.

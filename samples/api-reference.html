@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Wayline API Reference</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 760px; margin: 2rem auto; line-height: 1.5; }
+    code { background: #f2f2f2; padding: 0 0.2em; }
+  </style>
+  <script>
+    window.analytics = { page: "api-reference" };
+  </script>
+</head>
+<body>
+  <nav>
+    <a href="/">Docs home</a> · <a href="/guides">Guides</a> · <a href="/changelog">Changelog</a>
+  </nav>
+
+  <h1>Wayline API Reference</h1>
+  <p>The Wayline API is organised around REST. It accepts JSON request bodies, returns JSON responses and uses standard HTTP status codes. All requests go to <code>https://api.wayline.example/v2</code>.</p>
+
+  <h2>Authentication</h2>
+  <p>Authenticate every request with an API key in the <code>Authorization</code> header: <code>Authorization: Bearer wl_live_...</code>. Live keys start with <code>wl_live_</code> and test keys start with <code>wl_test_</code>. Keep keys on your server; never ship them in a mobile app or a web page.</p>
+  <p>You can rotate an API key from the dashboard at any time. When you rotate a key you choose a grace period between zero and seven days, during which the old key keeps working so you can roll out the new one without downtime.</p>
+
+  <h2>Rate limits</h2>
+  <p>Each API key may make 600 requests per minute, with short bursts of up to 100 requests allowed. Requests above the limit are rejected with HTTP status 429 and the error code <code>WL-4291</code>. The <code>Retry-After</code> response header tells you how many seconds to wait before trying again.</p>
+  <p>If you regularly hit the limit, batch several events into one call with <code>POST /v2/events/batch</code> before asking for a higher limit.</p>
+
+  <h2>Idempotent requests</h2>
+  <p>Network failures make it unclear whether a request was received. Send an <code>Idempotency-Key</code> header with any POST request and you can safely retry it: Wayline remembers each key for 24 hours and returns the original response for repeated requests instead of publishing the event twice.</p>
+
+  <h2>Pagination</h2>
+  <p>List endpoints are cursor-based. Pass <code>limit</code> (at most 100, default 20) and <code>starting_after</code> with the ID of the last object from the previous page. The response field <code>has_more</code> tells you whether another page exists.</p>
+
+  <h2>Endpoints</h2>
+  <h3>Publish an event</h3>
+  <p><code>POST /v2/events</code> publishes one event. The body has a <code>type</code>, such as <code>invoice.paid</code>, and a <code>data</code> object. Event payloads may be at most 256 KB.</p>
+  <h3>Manage endpoints</h3>
+  <p><code>GET /v2/endpoints</code> lists your webhook endpoints and <code>POST /v2/endpoints</code> creates one. An endpoint has a URL, the list of event types it subscribes to and a signing secret.</p>
+  <h3>Inspect deliveries</h3>
+  <p><code>GET /v2/deliveries/{id}</code> returns one delivery with every attempt, including the status code and response time of each. <code>POST /v2/deliveries/{id}/retry</code> sends a delivery again immediately.</p>
+
+  <h2>Errors</h2>
+  <p>Errors return a JSON body with a stable <code>code</code> and a human-readable <code>message</code>. Branch on the code, never on the message text.</p>
+  <ul>
+    <li><code>WL-4001</code>: The request body is not valid JSON or is missing a required field.</li>
+    <li><code>WL-4011</code>: The API key is missing, malformed or revoked.</li>
+    <li><code>WL-4031</code>: The API key is valid but lacks the scope this request needs.</li>
+    <li><code>WL-4130</code>: The event payload is larger than 256 KB.</li>
+    <li><code>WL-4291</code>: Rate limit exceeded. Wait for the number of seconds in <code>Retry-After</code>.</li>
+    <li><code>WL-5030</code>: Wayline is temporarily unavailable. Retry with exponential backoff.</li>
+  </ul>
+
+  <footer>
+    <p>© Fernbrook Labs. Wayline is a fictional product used as sample data.</p>
+  </footer>
+</body>
+</html>

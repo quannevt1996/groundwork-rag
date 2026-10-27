@@ -1,0 +1,116 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [5 0 R 7 0 R] /Count 2 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+4 0 obj
+<< /Length 1723 >>
+stream
+BT
+/F1 10.5 Tf
+15 TL
+72 740 Td
+(Postmortem PM-2026-014: Delivery outage in prod-us2 on 12 March 2026) Tj T*
+T*
+(Status: Complete. Severity: SEV1. Incident commander: Priya Raman. Author: Tomas Lindqvist.) Tj T*
+T*
+(Summary) Tj T*
+T*
+(On 12 March 2026, webhook deliveries in the prod-us2 region stalled for 47 minutes, from 14:06) Tj T*
+(to 14:53 UTC. Publishing kept working, so no events were lost, but 38% of deliveries in the) Tj T*
+(region were delayed by more than ten minutes. Customers in prod-eu1 were not affected.) Tj T*
+T*
+(Impact) Tj T*
+T*
+(About 2,400 customers saw delayed deliveries. Four Enterprise customers opened support tickets.) Tj T*
+(No data was lost and no event was delivered twice because of the incident. The Enterprise) Tj T*
+(availability commitment covers the publishing API, which stayed up, so no service credits were) Tj T*
+(owed.) Tj T*
+T*
+(Root cause) Tj T*
+T*
+(Version 3.5.0, deployed two days earlier, changed the retry scheduler to open a database) Tj T*
+(transaction for every delivery it rescheduled and to keep it open while computing the backoff) Tj T*
+(delay. Under normal load this was harmless. When a large customer endpoint started failing at) Tj T*
+(14:02, the number of deliveries waiting for a retry grew quickly and every one of them held a) Tj T*
+(connection.) Tj T*
+T*
+(The connection pool reached its limit, db.pool.max_connections = 200. Delivery workers share) Tj T*
+(that pool, so they could no longer record delivery attempts. Instead of failing quickly they) Tj T*
+(waited for a free connection, because db.pool.acquire_timeout_ms was set to 30000. Workers) Tj T*
+(spent most of their time blocked, and the delivery queue backed up across all partitions.) Tj T*
+ET
+endstream
+endobj
+5 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 4 0 R >>
+endobj
+6 0 obj
+<< /Length 1749 >>
+stream
+BT
+/F1 10.5 Tf
+15 TL
+72 740 Td
+(Timeline \(UTC\)) Tj T*
+T*
+(14:02 A large customer endpoint starts returning HTTP 503 for every request.) Tj T*
+(14:06 Delivery throughput in prod-us2 drops sharply. WL-ALERT-QLAG fires and pages the primary) Tj T*
+(on-call engineer.) Tj T*
+(14:11 The primary scales up delivery workers. Lag keeps growing because the new workers also) Tj T*
+(block on the pool.) Tj T*
+(14:19 SEV1 declared and an incident commander assigned. Status page updated at 14:24.) Tj T*
+(14:38 The team finds hundreds of idle-in-transaction connections owned by the retry scheduler.) Tj T*
+(14:44 The retry scheduler is paused. Connections are released and workers recover.) Tj T*
+(14:53 Delivery lag back to normal. Retry scheduler resumed with a hotfix.) Tj T*
+T*
+(What went well) Tj T*
+T*
+(Publishing was isolated from delivery, so customers could keep sending events. Pausing the) Tj T*
+(retry scheduler was possible without a deploy.) Tj T*
+T*
+(What went poorly) Tj T*
+T*
+(Nothing alerted on connection pool saturation; we found it by reading database sessions by) Tj T*
+(hand. Scaling up workers made the contention worse, which cost about 20 minutes.) Tj T*
+T*
+(Action items) Tj T*
+T*
+(ACT-112: Lower db.pool.acquire_timeout_ms from 30000 to 2000 so workers fail fast. Owner: Tomas) Tj T*
+(Lindqvist. Done in 3.5.1.) Tj T*
+(ACT-113: Add an alert when database connections exceed 90% of the pool. Owner: Priya Raman.) Tj T*
+(Done, see WL-ALERT-PGCONN.) Tj T*
+(ACT-114: Load test the retry scheduler with 100,000 pending retries before each release. Owner:) Tj T*
+(Delivery team. Open.) Tj T*
+(ACT-115: Reschedule retries in batched updates instead of one transaction per delivery. Owner:) Tj T*
+(Delivery team. Done in 3.5.1.) Tj T*
+ET
+endstream
+endobj
+7 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 6 0 R >>
+endobj
+8 0 obj
+<< /Title (Postmortem PM-2026-014: Delivery outage in prod-us2) >>
+endobj
+xref
+0 9
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000121 00000 n 
+0000000218 00000 n 
+0000001993 00000 n 
+0000002119 00000 n 
+0000003920 00000 n 
+0000004046 00000 n 
+trailer
+<< /Size 9 /Root 1 0 R /Info 8 0 R >>
+startxref
+4128
+%%EOF
