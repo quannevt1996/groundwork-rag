@@ -36,6 +36,11 @@ describe("citableBlocks", () => {
     for (const block of blocks) expect(content.slice(block.start, block.end)).toBe(block.text);
   });
 
+  it("keeps a heading or list number with the text it numbers", () => {
+    const numbered = "1. Purpose and scope. We keep data. 2) Next item here.";
+    expect(citableBlocks(numbered).map((b) => b.text)).toEqual(["1. Purpose and scope.", "We keep data.", "2) Next item here."]);
+  });
+
   it("returns nothing for blank content", () => {
     expect(citableBlocks("  \n\n ")).toEqual([]);
   });

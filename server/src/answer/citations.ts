@@ -23,6 +23,8 @@ export interface ResolvedCitation {
 }
 
 const SENTENCE_BREAK = /(?<=[.!?])\s+(?=[A-Z0-9"'(\[])/g;
+/** "1." or "b)" on its own is a list or heading number ("1. Purpose and scope"), not a sentence. */
+const ENUMERATOR = /^(\d{1,3}|[a-zA-Z])[.)]$/;
 
 /**
  * Claude cites whole content blocks, never substrings, so sentence-sized blocks give
@@ -36,6 +38,7 @@ export function citableBlocks(content: string): CitableBlock[] {
     const pieces = [...text.matchAll(SENTENCE_BREAK)].map((m) => m.index!);
     for (const breakAt of [...pieces, text.length]) {
       const raw = text.slice(cursor, breakAt);
+      if (breakAt < text.length && ENUMERATOR.test(raw.trim())) continue; // keep the number with its text
       const lead = raw.length - raw.trimStart().length;
       const piece = raw.trim();
       if (piece) blocks.push({ text: piece, start: line.index! + cursor + lead, end: line.index! + cursor + lead + piece.length });
