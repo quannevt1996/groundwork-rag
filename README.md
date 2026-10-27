@@ -36,11 +36,26 @@ Other commands:
 | --- | --- |
 | `npm run dev` | API with reload on :8787 and the Vite dev server on :5173 (proxies `/api`) |
 | `npm run seed` | Ingests `samples/` into the "Wayline samples" collection. Safe to re-run. Stop the server first: PGlite allows one process per data directory |
+| `npm run ingest -- <folder>` | Indexes a folder of your own documents (see [below](#use-it-on-your-own-documents)) |
 | `npm run eval` | Retrieval eval (see [Evaluation](#evaluation)) |
-| `npm test` | 66 offline tests |
+| `npm test` | 73 offline tests |
 | `npm run typecheck` / `npm run build` | Both workspaces |
 
 On Linux x64, `onnxruntime-node` downloads CUDA providers during install unless `ONNXRUNTIME_NODE_INSTALL=skip` is set. The app only uses the CPU build, so setting it saves a large download.
+
+## Use it on your own documents
+
+```bash
+npm run ingest -- ~/path/to/docs                       # collection named after the folder
+npm run ingest -- ~/work/specs --collection "Specs" --ext md,pdf,html
+npm start                                              # then choose the collection in the library
+```
+
+The command walks the folder for Markdown, text and PDF files (`--ext` adds HTML, which in a code folder is mostly generated). It skips hidden folders, `node_modules`, build output and files over 5 MB, and doesn't follow symlinks. Stop the server first; PGlite allows one process per data directory.
+
+**What leaves your machine.** With the default local embedder, parsing, chunking, embedding and search all run on your machine, so indexing a folder and browsing results sends nothing anywhere (the model weights are downloaded once). Asking for a written answer sends the question, the earlier turns of that conversation and the retrieved passages (eight chunks by default) to Claude. Without an API key the app is retrieval-only and fully offline. `EMBEDDER=voyage` sends chunk text to Voyage AI instead.
+
+**Re-running is a sync.** Unchanged files are skipped by content hash, so the same document in several git worktrees is stored once. A file whose content changed replaces its older version, but only after the new version has indexed, so a file that fails to parse never loses what was there.
 
 ## Architecture
 
@@ -91,12 +106,12 @@ server/
     app.ts                  HTTP routes (Hono), validation (zod), SSE
     services.ts runtime.ts  dependency wiring
     db/                     PGlite / node-postgres behind one interface, migrations, embedder pinning
-    ingest/                 parse.ts (per format), chunker.ts, service.ts (queue + indexing)
+    ingest/                 parse.ts (per format), chunker.ts, service.ts (queue + indexing), folder.ts
     embeddings/             local.ts (transformers.js / ONNX), voyage.ts, hash.ts
     retrieval/              retriever.ts (vector, keyword, hybrid), rrf.ts
     answer/                 answerer.ts, prompt.ts, citations.ts, llm.ts (Anthropic SDK seam)
     eval/                   run.ts, dataset.ts, metrics.ts, answers.ts
-    scripts/                seed.ts
+    scripts/                seed.ts, ingest.ts (index a folder)
   test/                     vitest suites and helpers (fake LLM, PDF writer)
 web/src/                    React + Vite UI
 samples/                    sample corpus (fictional, written for this repo)
@@ -256,7 +271,7 @@ Keyword search on its own improves sharply (Recall@5 0.22 → 0.81, and it beats
 npm test
 ```
 
-66 vitest tests in `server/test/`, all offline. They run the real service graph and real SQL on an in-memory PGlite database, with the hash embedder and a scripted LLM:
+73 vitest tests in `server/test/`, all offline. They run the real service graph and real SQL on an in-memory PGlite database, with the hash embedder and a scripted LLM:
 
 - **Parsing**: type detection, Markdown heading paths and code fences, HTML clean-up, PDF paragraph rebuilding (wrapped lines, hyphenation, columns, pages with no wrapped lines), PDF titles.
 - **Chunking**: size limits, section boundaries, whole-sentence overlap, oversize paragraphs and sentences, code fences.
@@ -265,6 +280,7 @@ npm test
 - **Citations**: sentence blocks and their offsets, citation-to-chunk mapping, out-of-range citations, the `search_result` payload.
 - **Answerer**: no-key mode, streamed answer with resolved and persisted citations, the request sent to the model, the not-found short-circuit, refusal, truncation, mid-stream API errors, follow-up rewriting, cross-collection access.
 - **HTTP API** via `app.request`: health, collections, multipart upload with background processing and de-duplication, unsupported files, search per mode, SSE chat, conversations, deletes, error responses.
+- **Folder ingest**: which files a scan picks up, re-runs, replacing a changed file (and keeping the old version when the new one fails), and identical copies across checkouts.
 - **Eval**: metrics, relevance matching, dataset validation, answer grading.
 
 ## API
@@ -294,7 +310,8 @@ All settings are environment variables, optionally in a root `.env`; [`.env.exam
 - **The eval is small and self-written.** It needs real questions from real users, and a held-out split before any parameter is tuned on it.
 - **Live answers are spot-checked, not covered by automated tests.** The test suite uses a scripted client (see above), and answer grading is mechanical, not a judgement of correctness.
 - **Single-process job queue.** Ingestion jobs live in memory, so they don't survive a restart (they're marked failed) and don't scale past one instance. A jobs table claimed with `FOR UPDATE SKIP LOCKED` would fix both.
-- **PGlite is single-process**, so the seed script and the server can't share a data directory at the same time.
+- **PGlite is single-process**, so the seed and ingest scripts and the server can't share a data directory at the same time.
+- **Folder sync adds and replaces, but never deletes.** A file removed from the folder stays in the collection until it is deleted in the library, because the index can't tell it apart from a file uploaded through the UI.
 - **PDFs**: no OCR for scanned files, and sections are pages rather than detected headings.
 - **Not ready to deploy as-is**: there is no authentication, and the URL-ingest endpoint fetches any http(s) URL from the server, which would need an allow-list or private-network blocking (SSRF) before exposure.
 - **Untested paths**: the Voyage embedder and the `DATABASE_URL` (server Postgres) mode share their interfaces with the tested paths, but neither was run during development.
