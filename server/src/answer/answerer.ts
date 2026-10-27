@@ -1,5 +1,5 @@
 import type { Config } from "../config.js";
-import type { Retriever, RetrievedChunk } from "../retrieval/retriever.js";
+import type { Retriever, RetrievedChunk, SearchMode } from "../retrieval/retriever.js";
 import type { Store } from "../store.js";
 import { citableBlocks, resolveCitation, type ResolvedCitation } from "./citations.js";
 import { describeLlmError, FALLBACK_BETA, type LlmClient } from "./llm.js";
@@ -50,7 +50,7 @@ export class Answerer {
    */
   async *answer(
     collectionId: string,
-    input: { message: string; conversationId?: string },
+    input: { message: string; conversationId?: string; mode?: SearchMode },
     signal?: AbortSignal,
   ): AsyncGenerator<AnswerEvent> {
     const conversation = input.conversationId
@@ -65,7 +65,7 @@ export class Answerer {
     const query = history.length > 0 && this.llm ? await this.condense(history, input.message) : input.message;
     if (query !== input.message) yield { type: "query", standalone: query };
 
-    const results = await this.retriever.search(collectionId, query, { k: this.config.RETRIEVAL_TOP_K });
+    const results = await this.retriever.search(collectionId, query, { mode: input.mode, k: this.config.RETRIEVAL_TOP_K });
     yield { type: "retrieval", results };
 
     if (!this.llm) {
@@ -73,7 +73,9 @@ export class Answerer {
         type: "notice",
         level: "warning",
         code: "llm_disabled",
-        message: "No ANTHROPIC_API_KEY is set, so Groundwork can't write an answer. The retrieved passages are shown in the inspector.",
+        message:
+          "Answer generation is off because ANTHROPIC_API_KEY is not set. Retrieval still ran: " +
+          "the passages an answer would be grounded in are listed with their scores.",
       };
       yield { type: "done", messageId: null };
       return;

@@ -14,14 +14,16 @@ const CreateCollection = z.object({
   description: z.string().max(500).optional(),
 });
 const IngestUrl = z.object({ url: z.url({ protocol: /^https?$/ }) });
+const Mode = z.enum(["vector", "keyword", "hybrid"]).default("hybrid");
 const Search = z.object({
   query: z.string().trim().min(1).max(2000),
-  mode: z.enum(["vector", "keyword", "hybrid"]).default("hybrid"),
+  mode: Mode,
   k: z.number().int().min(1).max(30).default(8),
 });
 const Chat = z.object({
   message: z.string().trim().min(1).max(4000),
   conversationId: z.string().optional(),
+  mode: Mode,
 });
 
 export function createApp(services: Services): Hono {
