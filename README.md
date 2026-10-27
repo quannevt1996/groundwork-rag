@@ -174,7 +174,9 @@ If no chunk matched the keyword search and the best vector similarity is below `
 
 ### What has and hasn't been verified
 
-The answer path is covered by tests that use a scripted client replaying SDK-shaped stream events (`test/helpers/fake-llm.ts`): text and citation deltas, refusals, truncation, mid-stream errors and follow-up rewriting. It has not been run against the live Claude API as part of this repository's checks, because no API key was available while it was built. The optional `npm run eval -- --answers` grading likewise only runs with a key.
+The answer path is covered by tests that use a scripted client replaying SDK-shaped stream events (`test/helpers/fake-llm.ts`): text and citation deltas, refusals, truncation, mid-stream errors and follow-up rewriting. CI runs only those tests, so it needs no key.
+
+It has also been checked by hand against the live API (`claude-opus-5-5`, effort `low`, sample corpus, hybrid mode). Asked "How long do we keep database backups?", worded away from the policy ("backups" vs "restore points"), it answered that "a restore point is taken every 6 hours and each one is kept for 35 days", with six sentence-level citations, all into *Policy DRP-3: Data Retention and Deletion*. The request used 5,095 input and 358 output tokens. The optional `npm run eval -- --answers` grading has not been run.
 
 ## Evaluation
 
@@ -292,7 +294,7 @@ All settings are environment variables, optionally in a root `.env`; [`.env.exam
 - **Keyword ranking has no IDF.** `ts_rank_cd` counts term occurrences, which is why any-term matching hurt hybrid results. BM25 inside Postgres (for example the `pg_search` extension) would be the next experiment, along with weighted RRF tuned on held-out questions.
 - **No reranker.** A cross-encoder over the fused top 30 is the usual next step for precision at rank 1.
 - **The eval is small and self-written.** It needs real questions from real users, and a held-out split before any parameter is tuned on it.
-- **Answers are untested against the live API** in this repository (see above), and answer grading is mechanical, not a judgement of correctness.
+- **Live answers are spot-checked, not tested in CI.** The automated tests use a scripted client (see above), and answer grading is mechanical, not a judgement of correctness.
 - **Single-process job queue.** Ingestion jobs live in memory, so they don't survive a restart (they're marked failed) and don't scale past one instance. A jobs table claimed with `FOR UPDATE SKIP LOCKED` would fix both.
 - **PGlite is single-process**, so the seed script and the server can't share a data directory at the same time.
 - **PDFs**: no OCR for scanned files, and sections are pages rather than detected headings.
